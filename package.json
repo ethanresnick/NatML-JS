@@ -1,0 +1,41 @@
+{
+  "name": "natml",
+  "version": "0.0.1",
+  "description": "Zero-configuration machine learning deployment.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natsuite/NatML-JS.git"
+  },
+  "keywords": [
+    "machine",
+    "learning",
+    "ml",
+    "deep",
+    "learning",
+    "computer",
+    "vision",
+    "natural",
+    "language",
+    "opencv",
+    "tensorflow",
+    "pytorch"
+  ],
+  "author": "NatML",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/natsuite/NatML-JS/issues"
+  },
+  "homepage": "https://github.com/natsuite/NatML-JS",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es5.js",
+  "typings": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  }
+}
