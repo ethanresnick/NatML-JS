@@ -9,21 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/natsuite/NatML-JS.git"
   },
-  "keywords": [
-    "machine",
-    "learning",
-    "ml",
-    "deep",
-    "learning",
-    "computer",
-    "vision",
-    "natural",
-    "language",
-    "opencv",
-    "tensorflow",
-    "pytorch"
-  ],
-  "author": "NatML",
+  "author": "NatML <hi@natsuite.io> (https://natml.ai)",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/natsuite/NatML-JS/issues"
@@ -37,5 +23,19 @@
   ],
   "devDependencies": {
     "typescript": "^4.4.4"
-  }
+  },
+  "keywords": [
+    "machine",
+    "learning",
+    "ml",
+    "deep",
+    "learning",
+    "computer",
+    "vision",
+    "natural",
+    "language",
+    "opencv",
+    "tensorflow",
+    "pytorch"
+  ]
 }
