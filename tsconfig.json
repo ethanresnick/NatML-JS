@@ -11,11 +11,12 @@
       "esnext.asynciterable"
     ],
     "strict": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "declarationDir": "dist/types",
     "outDir": "dist/lib",
     "typeRoots": [
@@ -26,6 +27,7 @@
     "src"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ],
 }

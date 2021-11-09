@@ -1,8 +1,9 @@
 {
   "name": "natml",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Zero-configuration machine learning deployment.",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,8 +16,8 @@
     "url": "https://github.com/natsuite/NatML-JS/issues"
   },
   "homepage": "https://github.com/natsuite/NatML-JS",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.es5.js",
+  "main": "dist/lib/index.js",
+  "module": "dist/lib/index.js",
   "typings": "dist/types/index.d.ts",
   "files": [
     "dist"
