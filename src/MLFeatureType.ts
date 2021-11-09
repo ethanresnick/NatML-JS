@@ -3,6 +3,8 @@
 *   Copyright (c) 2021 Yusuf Olokoba.
 */
 
+import { MLDataType } from "./MLTypes"
+
 /**
  * ML feature type.
  */
@@ -29,17 +31,4 @@ export abstract class MLFeatureType {
         this.type = type;
     }
     //#endregion
-}
-
-export enum MLDataType {
-    Float = "FLOAT32",
-    Double = "FLOAT64",
-    SByte = "INT8",
-    Short = "INT16",
-    Int = "INT32",
-    Long = "INT64",
-    Byte = "UINT8",
-    UShort = "UINT16",
-    UInt = "UINT32",
-    ULong = "UINT64"
 }

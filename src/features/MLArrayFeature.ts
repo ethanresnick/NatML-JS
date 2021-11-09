@@ -4,11 +4,11 @@
 */
 
 import { MLFeature } from "../MLFeature"
-import { MLDataType } from "../MLFeatureType"
+import { MLDataType } from "../MLTypes"
 
 export class MLArrayFeature extends MLFeature {
 
-    constructor (data: number[], shape: number[], dtype: MLDataType) {
-        super();
-    }
+    //constructor (data: number[], shape: number[], dtype: MLDataType) {
+    //    super();
+    //}
 }
