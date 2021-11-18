@@ -23,7 +23,5 @@ export abstract class MLFeature {
     protected constructor (type: MLFeatureType) {
         this.type = type;
     }
-
-
     //#endregion
 }

@@ -14,5 +14,5 @@ export interface IMLHubFeature {
      * Serialize the Hub feature for prediction with NatML Hub.
      * @returns Prediction-ready NatML Hub feature.
      */
-    serialize (): MLHubFeature;
+    serialize (): MLHubFeature | Promise<MLHubFeature>;
 }

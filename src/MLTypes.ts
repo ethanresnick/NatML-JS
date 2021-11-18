@@ -23,22 +23,61 @@ export enum AspectMode {
 }
 
 /**
- * 
+ * Feature data type.
  */
-export enum MLDataType { // DOC
-    Float   = "FLOAT32",
-    Double  = "FLOAT64",
-    SByte   = "INT8",
-    Short   = "INT16",
-    Int     = "INT32",
-    Long    = "INT64",
-    Byte    = "UINT8",
-    UShort  = "UINT16",
-    UInt    = "UINT32",
-    ULong   = "UINT64",
-    Image   = "IMAGE",
-    Audio   = "AUDIO",
-    String  = "STRING",
+ export enum MLDataType {
+    /**
+     * Single precision floating point number.
+     */
+    Float = "FLOAT32",
+    /**
+     * Double precision floating point number.
+     */
+    Double = "FLOAT64",
+    /**
+     * Signed 8-bit integer.
+     */
+    SByte = "INT8",
+    /**
+     * Signed 16-bit integer.
+     */
+    Short = "INT16",
+    /**
+     * Signed 32-bit integer.
+     */
+    Int = "INT32",
+    /**
+     * Signed 64-bit integer.
+     */
+    Long = "INT64",
+    /**
+     * Unsigned 8-bit integer.
+     */
+    Byte = "UINT8",
+    /**
+     * Unsigned 16-bit integer.
+     */
+    UShort = "UINT16",
+    /**
+     * Unsigned 32-bit integer.
+     */
+    UInt = "UINT32",
+    /**
+     * Unsigned 64-bit integer.
+     */
+    ULong = "UINT64",
+    /**
+     * Encoded image.
+     */
+    Image = "IMAGE",
+    /**
+     * Encoded audio.
+     */
+    Audio = "AUDIO",
+    /**
+     * Plain text.
+     */
+    String = "STRING"
 }
 
 /**

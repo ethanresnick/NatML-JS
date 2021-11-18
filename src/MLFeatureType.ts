@@ -14,7 +14,7 @@ export abstract class MLFeatureType {
     /**
      * Feature name.
      */
-    public readonly name: string;
+    public readonly name: string | null;
 
     /**
      * Feature data type.
@@ -26,7 +26,7 @@ export abstract class MLFeatureType {
 
     //#region --Operations--
 
-    protected constructor (name: string, type: MLDataType) {
+    protected constructor (name: string | null, type: MLDataType) {
         this.name = name;
         this.type = type;
     }

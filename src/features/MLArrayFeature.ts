@@ -6,9 +6,7 @@
 import { MLFeature } from "../MLFeature"
 import { MLDataType } from "../MLTypes"
 
-export class MLArrayFeature extends MLFeature {
+export class MLArrayFeature extends MLFeature { // INCOMPLETE
 
-    //constructor (data: number[], shape: number[], dtype: MLDataType) {
-    //    super();
-    //}
+    
 }
