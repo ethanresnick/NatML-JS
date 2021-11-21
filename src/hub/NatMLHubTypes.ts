@@ -7,6 +7,16 @@ import { MLHubFeature } from "./MLHubFeature"
 import { AspectMode, AudioFormat, Normalization } from "../MLTypes"
 
 /**
+ * Development framework.
+ */
+export enum Framework {
+    /**
+     * NodeJS.
+     */
+    Node = "NODE"
+}
+
+/**
  * Predictor type.
  */
 export enum PredictorType {
@@ -62,6 +72,7 @@ export interface Device {
     os: string;
     model?: string;
     gfx?: string;
+    framework?: Framework;
 }
 
 export interface Session {

@@ -5,7 +5,7 @@
 
 import { MLModel } from "./MLModel"
 import { AspectMode, AudioFormat, Normalization } from "./MLTypes"
-import { NatMLHub, MLHubModel, Session, PredictorType } from "./hub"
+import { NatMLHub, MLHubModel, Framework, Session, PredictorType } from "./hub"
 
 /**
  * Self-contained archive with ML model and supplemental data needed to make predictions.
@@ -72,7 +72,13 @@ export class MLModelData {
      * @returns ML model data.
      */
     public static async fromHub (tag: string, accessKey?: string): Promise<MLModelData> {
-        const session = await NatMLHub.createSession({ tag, device: { os: process.platform } }, accessKey ?? "");
+        const session = await NatMLHub.createSession({
+            tag,
+            device: {
+                os: process.platform,
+                framework: Framework.Node
+            }
+        }, accessKey ?? "");
         return new MLModelData(session);
     }
     //#endregion
