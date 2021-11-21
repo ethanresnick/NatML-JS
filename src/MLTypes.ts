@@ -81,9 +81,9 @@ export enum AspectMode {
 }
 
 /**
- * 
+ * Feature normalization constants.
  */
-export interface Normalization { // DOC
+export interface Normalization {
     /**
      * Per-channel normalization means.
      */
@@ -95,9 +95,9 @@ export interface Normalization { // DOC
 }
 
 /**
- * 
+ * Audio format description for models that work on audio data.
  */
-export interface AudioFormat { // DOC
+export interface AudioFormat {
     /**
      * Sample rate.
      */

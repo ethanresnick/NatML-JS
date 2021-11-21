@@ -3,6 +3,9 @@
 *   Copyright (c) 2021 Yusuf Olokoba.
 */
 
+import { MLHubFeature } from "./MLHubFeature"
+import { AspectMode, AudioFormat, Normalization } from "../MLTypes"
+
 /**
  * Predictor type.
  */
@@ -35,4 +38,33 @@ export enum PredictionStatus {
      * Prediction completed or errored.
      */
     Completed = "COMPLETED"
+}
+
+export interface Device {
+    model: string;
+    os: string;
+    gfx: string;
+}
+
+export interface Session {
+    id: string;
+    predictor: Predictor;
+    graph?: string;
+    flags?: number;
+}
+
+export interface Predictor {
+    tag: string;
+    type: PredictorType;
+    aspectMode?: AspectMode;
+    labels?: string[];
+    normalization?: Normalization;
+    audioFormat?: AudioFormat;
+}
+
+export interface Prediction {
+    id: string;
+    status: PredictionStatus;
+    results?: MLHubFeature[];
+    error?: string;
 }

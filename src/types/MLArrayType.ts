@@ -14,7 +14,7 @@ export class MLArrayType extends MLFeatureType {
     /**
      * Array shape.
      */
-    public readonly shape: number[];
+    public readonly shape: number[] | undefined;
 
     /**
      * Array dimensions.
@@ -35,8 +35,8 @@ export class MLArrayType extends MLFeatureType {
      * @param type Array element data type.
      * @param shape Array feature shape.
      */
-    public constructor (type: MLDataType, shape: number[]) {
-        super(null, type);
+    public constructor (type: MLDataType, shape?: number[]) {
+        super(undefined, type);
         this.shape = shape;
     }
 }

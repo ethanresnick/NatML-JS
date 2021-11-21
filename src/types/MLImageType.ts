@@ -15,21 +15,21 @@ export class MLImageType extends MLArrayType {
      * Image width.
      */
     public get width () {
-        return this.shape[this.interleaved ? 2 : 3];
+        return this.shape?.[this.interleaved ? 2 : 3];
     }
 
     /**
      * Image height.
      */
     public get height () {
-        return this.shape[this.interleaved ? 1 : 2];
+        return this.shape?.[this.interleaved ? 1 : 2];
     }
 
     /**
      * Image channels.
      */
     public get channels () {
-        return this.shape[this.interleaved ? 3 : 1];
+        return this.shape?.[this.interleaved ? 3 : 1];
     }
 
     /**
@@ -39,7 +39,7 @@ export class MLImageType extends MLArrayType {
      */
     public constructor (type: MLDataType, shape: number[]) {
         super(type, shape);
-        this.interleaved = shape[1] > shape[3];
+        this.interleaved = shape && shape[1] > shape[3];
     }
 
     private readonly interleaved: boolean;

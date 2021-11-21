@@ -3,8 +3,9 @@
 *   Copyright (c) 2021 Yusuf Olokoba.
 */
 
-import { MLModel } from ".";
+import { MLModel } from "./MLModel"
 import { AspectMode, AudioFormat, Normalization } from "./MLTypes"
+import { NatMLHub, MLHubModel, Session, PredictorType } from "./hub"
 
 /**
  * Self-contained archive with ML model and supplemental data needed to make predictions.
@@ -15,47 +16,40 @@ export class MLModelData {
     /**
      * NatML Hub predictor tag.
      */
-    public get tag (): string { // INCOMPLETE
-        return "";
-    }
-
-    /**
-     * NatML Hub access key.
-     */
-    public get accessKey (): string { // INCOMPLETE
-        return "";
+    public get tag (): string {
+        return this.session.predictor.tag;
     }
 
     /**
      * Predictor classification labels.
-     * This is `null` if the predictor does not have use classification labels.
+     * This is `undefined` if the predictor does not have use classification labels.
      */
-    public get labels (): string[] | null { // INCOMPLETE
-        return null;
+    public get labels (): string[] | undefined {
+        return this.session.predictor.labels;
     }
 
     /**
      * Expected feature normalization for predictions with this model.
-     * This is `null` if the predictor does not use normalization.
+     * This is `undefined` if the predictor does not use normalization.
      */
-    public get normalization (): Normalization | null { // INCOMPLETE
-        return null;
+    public get normalization (): Normalization | undefined {
+        return this.session.predictor.normalization;
     }
 
     /**
      * Expected image aspect mode for predictions with this model.
-     * This is `null` for predictors that do not work with images.
+     * This is `undefined` for predictors that do not work with images.
      */
-    public get aspectMode (): AspectMode | null { // INCOMPLETE
-        return null;
+    public get aspectMode (): AspectMode | undefined {
+        return this.session.predictor.aspectMode;
     }
 
     /**
      * Expected audio format for predictions with this model.
-     * This is `null` for predictors that do not work with audio.
+     * This is `undefined` for predictors that do not work with audio.
      */
-    public get audioFormat (): AudioFormat | null { // INCOMPLETE
-        return null;
+    public get audioFormat (): AudioFormat | undefined {
+        return this.session.predictor.audioFormat;
     }
 
     /**
@@ -63,8 +57,12 @@ export class MLModelData {
      * You MUST dispose the model once you are done with it.
      * @returns ML model.
      */
-    public deserialize (): MLModel { // INCOMPLETE
-        return undefined as unknown as MLModel;
+    public deserialize (): MLModel {
+        switch (this.session.predictor.type) {
+            case PredictorType.Edge:    throw new Error(`NatML does not support Edge predictors in NodeJS`);
+            case PredictorType.Hub:     return new MLHubModel(this.session.id);
+            default:                    throw new Error(`Invalid predictor type`);
+        }
     }
 
     /**
@@ -73,17 +71,35 @@ export class MLModelData {
      * @param accessKey Hub access key.
      * @returns ML model data.
      */
-    public static async fromHub (tag: string, accessKey?: string): Promise<MLModelData> { // INCOMPLETE
-        return null as unknown as MLModelData;
+    public static async fromHub (tag: string, accessKey?: string): Promise<MLModelData> {
+        const session = await NatMLHub.createSession({
+            tag,
+            device: {
+                os: MLModelData.platform,
+                model: "Unknown",
+                gfx: "vulkan" // CHECK // Remove in Hub 1.0.1
+            }
+        }, accessKey ?? "");
+        return new MLModelData(session);
     }
     //#endregion
 
 
     //#region --Operations--
-    private readonly session: string;
+    private readonly session: Session;
 
-    private constructor (session: string) {
+    private constructor (session: Session) {
         this.session = session;
+    }
+
+    private static get platform (): string {
+        switch (process.platform) {
+            case "android": return "android";
+            case "darwin":  return "macos";
+            case "win32":   return "windows";
+            case "linux":   return "macos"; // CHECK // Properly handle Linux with Hub 1.0.1
+            default:        return "macos";
+        }
     }
     //#endregion
 }

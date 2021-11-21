@@ -21,7 +21,7 @@ export class MLAudioType extends MLArrayType {
      * Audio channel count.
      */
     public get channelCount () {
-        return this.shape[2];
+        return this.shape?.[2] ?? 0;
     }
 
     /**

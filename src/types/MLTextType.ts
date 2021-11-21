@@ -21,7 +21,7 @@ export class MLTextType extends MLFeatureType {
      * @param length Text length.
      */
     public constructor (length: number) {
-        super(null, MLDataType.String);
+        super(undefined, MLDataType.String);
         this.length = length;
     }
 }

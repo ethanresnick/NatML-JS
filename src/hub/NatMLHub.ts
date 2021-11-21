@@ -5,47 +5,17 @@
 
 import axios from "axios"
 import { MLHubFeature } from "./MLHubFeature"
-import { PredictorType, PredictionStatus } from "./NMLHubTypes"
-import { AspectMode, AudioFormat, Normalization } from "../MLTypes"
-
-export interface Device {
-    model: string;
-    os: string;
-    gfx: string;
-}
+import { Session, Prediction, Device } from "./NatMLHubTypes"
 
 export interface CreateSessionInput {
     tag: string;
     device: Device;
 }
 
-export interface Session {
-    id: string;
-    predictor: Predictor;
-    graph?: string;
-    flags?: number;
-}
-
-export interface Predictor {
-    tag: string;
-    type: PredictorType;
-    aspectMode?: AspectMode;
-    labels?: string[];
-    normalization?: Normalization;
-    audioFormat?: AudioFormat;
-}
-
 export interface RequestPredictionInput {
     session: string;
     inputs: MLHubFeature[];
     waitUntilCompleted?: boolean;
-}
-
-export interface Prediction {
-    id: string;
-    status: PredictionStatus;
-    results?: MLHubFeature[];
-    error?: string;
 }
 
 export interface ReportPredictionInput {
@@ -59,18 +29,25 @@ export interface ReportPredictionInput {
  */
 export abstract class NatMLHub { // Prevent instantiation with `abstract` since no `static` classes in TS
 
+    //#region --Client API--
     /**
-     * 
+     * NatML Hub API URL.
      */
-    public static readonly URL = "https://api.natml.ai/graph";
+    public static get URL () {
+        switch (process.env.HUB_ENV?.toLowerCase()) {
+            case "development": return "http://localhost:8000/graph";
+            case "staging":     return "https://staging.api.natml.ai/graph";
+            default:            return "https://api.natml.ai/graph";
+        }
+    }
 
     /**
-     * 
-     * @param input 
-     * @param accessKey 
-     * @returns 
+     * Create a prediction session.
+     * @param input Session input.
+     * @param accessKey Hub access key.
+     * @returns Prediction session.
      */
-    public static async createSession (input: CreateSessionInput, accessKey: string): Promise<Session> { // DEPLOY
+    public static async createSession (input: CreateSessionInput, accessKey: string): Promise<Session> {
         const query = `
         mutation ($input: CreateSessionInput!) {
             createSession (input: $input) {
@@ -89,7 +66,8 @@ export abstract class NatMLHub { // Prevent instantiation with `abstract` since 
         }`;
         const variables = { input };
         const data = { query, variables };
-        const headers = { "Content-Type": "application/json", "Authorization": `Bearer ${accessKey}` };
+        const auth: any = accessKey ? { "Authorization": `Bearer ${accessKey}` } : {};
+        const headers = { "Content-Type": "application/json", ...auth };
         const response = await axios.post(this.URL, data, { headers });
         if (response.data.errors)
             throw new Error(JSON.stringify(response.data.errors));
@@ -98,11 +76,11 @@ export abstract class NatMLHub { // Prevent instantiation with `abstract` since 
     }
 
     /**
-     * 
-     * @param input 
-     * @returns 
+     * Request a Hub prediction.
+     * @param input Prediction request.
+     * @returns Prediction.
      */
-    public static async requestPrediction (input: RequestPredictionInput): Promise<Prediction> { // DEPLOY
+    public static async requestPrediction (input: RequestPredictionInput): Promise<Prediction> {
         const query = `
         mutation ($input: RequestPredictionInput!) {
             requestPrediction (input: $input) {
@@ -123,10 +101,10 @@ export abstract class NatMLHub { // Prevent instantiation with `abstract` since 
     }
 
     /**
-     * 
-     * @param input 
+     * Report an Edge prediction.
+     * @param input Prediction report.
      */
-    public static async reportPrediction (input: ReportPredictionInput) { // DEPLOY
+    public static async reportPrediction (input: ReportPredictionInput) {
         const query = `
         mutation ($input: ReportPredictionInput!) {
             reportPrediction (input: $input) {
@@ -138,4 +116,11 @@ export abstract class NatMLHub { // Prevent instantiation with `abstract` since 
         const headers = { "Content-Type": "application/json" };
         await axios.post(this.URL, data, { headers });
     }
+    //#endregion
+
+
+    //#region --Operations--
+
+    private constructor () { } // Prevent inheritance
+    //#endregion
 }

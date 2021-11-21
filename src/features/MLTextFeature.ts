@@ -4,8 +4,8 @@
 */
 import { MLDataType } from "../MLTypes"
 import { MLFeature } from "../MLFeature"
-import { IMLHubFeature } from "../hub/IMLHubFeature"
-import { MLTextType } from "../types/MLTextType"
+import { IMLHubFeature, MLHubFeature } from "../hub"
+import { MLTextType } from "../types"
 
 /**
  * ML text feature.
@@ -32,7 +32,7 @@ export class MLTextFeature extends MLFeature implements IMLHubFeature {
 
     //#region --Operations--
 
-    public serialize () {
+    public serialize (): MLHubFeature {
         return { data: this.text, type: MLDataType.String };
     }
     //#endregion

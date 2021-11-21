@@ -18,7 +18,8 @@
             "internalConsoleOptions": "openOnSessionStart",
             "env": {
                 "TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.test.json"
-            }
+            },
+            "envFile": "${workspaceFolder}/.env.test"
         }
     ]
 }

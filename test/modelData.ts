@@ -10,28 +10,23 @@ import { MLModelData } from "../src"
 @suite("Model Data Test")
 class ModelDataTest {
 
-    readonly ACCESS_KEY = "Hello";
-
-    public static before () {
-
-    }
-
     @test
     async "Should fetch MobileNet v2 model data" () {
         const tag = "@natsuite/mobilenet-v2";
-        const modelData = await MLModelData.fromHub(tag, this.ACCESS_KEY);
+        const modelData = await MLModelData.fromHub(tag, process.env.HUB_ACCESS_KEY);
         expect(modelData.tag).to.equal(tag);
     }
 
     @test
-    async "Should have imagenet classification labels" () { // INCOMPLETE
-        const modelData = await MLModelData.fromHub("@natsuite/mobilenet-v2", this.ACCESS_KEY);
-        expect(modelData.labels).length.to.equal(80);
+    async "Should have imagenet classification labels" () {
+        const modelData = await MLModelData.fromHub("@natsuite/mobilenet-v2", process.env.HUB_ACCESS_KEY);
+        expect(modelData.labels).to.have.lengthOf(1000);
     }
 
     @test
-    async "Should have imagenet normalization" () { // INCOMPLETE
-        const modelData = await MLModelData.fromHub("@natsuite/mobilenet-v2", this.ACCESS_KEY);
-        
+    async "Should have imagenet normalization" () {
+        const modelData = await MLModelData.fromHub("@natsuite/mobilenet-v2", process.env.HUB_ACCESS_KEY);
+        expect(modelData.normalization.mean).to.eql([0.485, 0.456, 0.406]);
+        expect(modelData.normalization.std).to.eql([0.229, 0.224, 0.225]);
     }
 }
