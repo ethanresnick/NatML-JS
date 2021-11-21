@@ -6,7 +6,7 @@
 import sharp = require("sharp")
 import { suite, test } from "@testdeck/mocha"
 import { expect } from "chai"
-import { MLArrayFeature, MLDataType, MLImageFeature, MLTextFeature } from "../src"
+import { MLArrayFeature, MLDataType, MLImageFeature, MLTextFeature, NatMLHub } from "../src"
 
 @suite("Hub Feature Test")
 class HubFeatureTest {
@@ -38,5 +38,11 @@ class HubFeatureTest {
         const hubFeature = feature.serialize();
         expect(hubFeature.shape).to.eql(feature.shape);
         expect(hubFeature.type).to.equal(feature.type.type);
+    }
+
+    @test
+    async "Should generate Hub feature upload URL" () {
+        const url = await NatMLHub.uploadURL();
+        expect(url).to.be.a("string");
     }
 }

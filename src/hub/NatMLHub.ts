@@ -4,8 +4,9 @@
 */
 
 import axios from "axios"
+import { nanoid } from "nanoid"
 import { MLHubFeature } from "./MLHubFeature"
-import { Session, Prediction, Device } from "./NatMLHubTypes"
+import { Session, Prediction, Device, UploadType } from "./NatMLHubTypes"
 
 export interface CreateSessionInput {
     tag: string;
@@ -78,7 +79,7 @@ export abstract class NatMLHub { // Prevent instantiation with `abstract` since 
     /**
      * Request a Hub prediction.
      * @param input Prediction request.
-     * @returns Prediction.
+     * @returns Hub prediction.
      */
     public static async requestPrediction (input: RequestPredictionInput): Promise<Prediction> {
         const query = `
@@ -115,6 +116,29 @@ export abstract class NatMLHub { // Prevent instantiation with `abstract` since 
         const data = { query, variables };
         const headers = { "Content-Type": "application/json" };
         await axios.post(this.URL, data, { headers });
+    }
+
+    /**
+     * Request an upload URL.
+     * @param type Upload type.
+     * @param name File name.
+     * @returns Pre-signed upload URL.
+     */
+    public static async uploadURL (type: UploadType = UploadType.Feature, name?: string): Promise<string> {
+        const query = `
+        query ($input: UploadURLInput!) {
+            uploadURL (input: $input)
+        }
+        `;
+        const input = { type, name: name ?? nanoid() };
+        const variables = { input };
+        const data = { query, variables };
+        const headers = { "Content-Type": "application/json" };
+        const response = await axios.post(this.URL, data, { headers });
+        if (response.data.errors)
+            throw new Error(JSON.stringify(response.data.errors));
+        else
+            return response.data.data.uploadURL;
     }
     //#endregion
 

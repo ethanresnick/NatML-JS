@@ -40,6 +40,24 @@ export enum PredictionStatus {
     Completed = "COMPLETED"
 }
 
+/**
+ * Upload URL type.
+ */
+export enum UploadType {
+    /**
+     * Predictor model graph.
+     */
+    Model = "MODEL",
+    /**
+     * Predictor media.
+     */
+    Media = "MEDIA",
+    /**
+     * Feature data for Hub prediction.
+     */
+    Feature = "FEATURE"
+}
+
 export interface Device {
     os: string;
     model?: string;
