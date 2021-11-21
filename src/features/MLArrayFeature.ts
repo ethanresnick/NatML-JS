@@ -3,9 +3,11 @@
 *   Copyright (c) 2021 Yusuf Olokoba.
 */
 
-import { MLArrayType, MLFeatureType } from ".."
 import { MLFeature } from "../MLFeature"
+import { MLFeatureType } from "../MLFeatureType"
 import { MLDataType } from "../MLTypes"
+import { IMLHubFeature, MLHubFeature } from "../hub"
+import { MLArrayType } from "../types"
 
 export type UnmanagedArray = 
     Float32Array | Float64Array |
@@ -15,7 +17,7 @@ export type UnmanagedArray =
 /**
  * ML array feature.
  */
-export class MLArrayFeature<T extends UnmanagedArray> extends MLFeature {
+export class MLArrayFeature<T extends UnmanagedArray> extends MLFeature implements IMLHubFeature {
 
     //#region --Client API--
     /**
@@ -73,6 +75,17 @@ export class MLArrayFeature<T extends UnmanagedArray> extends MLFeature {
         const type = typeOrShape instanceof MLFeatureType ? typeOrShape : new MLArrayType(dtype, shape);
         super(type);
         this.data = data;
+    }
+
+    public serialize (): MLHubFeature { // Most hardware uses little endian
+        // Check
+        const shape = this.shape;
+        if (!shape)
+            throw new Error(`Array feature cannot be used for Hub prediction because it has no shape`);
+        // Create
+        const data = Buffer.from(this.data.buffer).toString("base64");
+        const type = this.type.type;
+        return { data, type, shape };
     }
     //#endregion
 }

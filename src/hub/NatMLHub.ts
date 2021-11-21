@@ -93,7 +93,7 @@ export abstract class NatMLHub { // Prevent instantiation with `abstract` since 
         const variables = { input };
         const data = { query, variables };
         const headers = { "Content-Type": "application/json" };
-        const response = await axios.post(this.URL, data, { headers });
+        const response = await axios.post(this.URL, data, { headers, timeout: 100_000 });
         if (response.data.errors)
             throw new Error(JSON.stringify(response.data.errors));
         else

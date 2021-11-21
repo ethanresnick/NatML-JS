@@ -72,14 +72,7 @@ export class MLModelData {
      * @returns ML model data.
      */
     public static async fromHub (tag: string, accessKey?: string): Promise<MLModelData> {
-        const session = await NatMLHub.createSession({
-            tag,
-            device: {
-                os: MLModelData.platform,
-                model: "Unknown",
-                gfx: "vulkan" // CHECK // Remove in Hub 1.0.1
-            }
-        }, accessKey ?? "");
+        const session = await NatMLHub.createSession({ tag, device: { os: process.platform } }, accessKey ?? "");
         return new MLModelData(session);
     }
     //#endregion
@@ -90,16 +83,6 @@ export class MLModelData {
 
     private constructor (session: Session) {
         this.session = session;
-    }
-
-    private static get platform (): string {
-        switch (process.platform) {
-            case "android": return "android";
-            case "darwin":  return "macos";
-            case "win32":   return "windows";
-            case "linux":   return "macos"; // CHECK // Properly handle Linux with Hub 1.0.1
-            default:        return "macos";
-        }
     }
     //#endregion
 }

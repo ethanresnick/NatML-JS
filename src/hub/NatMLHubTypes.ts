@@ -41,9 +41,9 @@ export enum PredictionStatus {
 }
 
 export interface Device {
-    model: string;
     os: string;
-    gfx: string;
+    model?: string;
+    gfx?: string;
 }
 
 export interface Session {

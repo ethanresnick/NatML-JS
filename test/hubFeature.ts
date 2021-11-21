@@ -6,7 +6,7 @@
 import sharp = require("sharp")
 import { suite, test } from "@testdeck/mocha"
 import { expect } from "chai"
-import { MLDataType, MLImageFeature, MLTextFeature } from "../src"
+import { MLArrayFeature, MLDataType, MLImageFeature, MLTextFeature } from "../src"
 
 @suite("Hub Feature Test")
 class HubFeatureTest {
@@ -29,5 +29,14 @@ class HubFeatureTest {
         const buffer = Buffer.from(hubFeature.data, "base64");
         const decodedMetadata = await sharp(buffer).metadata();
         expect([metadata.width, metadata.height]).to.eql([decodedMetadata.width, decodedMetadata.height]);
+    }
+
+    @test
+    async "Should serialize array feature" () {
+        const array = new Int32Array([10, 32, -394, 28, 7, 0]);
+        const feature = new MLArrayFeature(array, [3, 2]);
+        const hubFeature = feature.serialize();
+        expect(hubFeature.shape).to.eql(feature.shape);
+        expect(hubFeature.type).to.equal(feature.type.type);
     }
 }
