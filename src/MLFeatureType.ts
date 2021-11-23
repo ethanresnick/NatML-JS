@@ -18,7 +18,6 @@ export abstract class MLFeatureType {
 
     /**
      * Feature data type.
-     * This will typically be a numeric type.
      */
     public readonly type: MLDataType;
     //#endregion

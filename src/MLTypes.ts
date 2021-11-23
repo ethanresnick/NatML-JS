@@ -25,7 +25,7 @@ export enum AspectMode {
 /**
  * Feature data type.
  */
- export enum MLDataType {
+export enum MLDataType {
     /**
      * Single precision floating point number.
      */

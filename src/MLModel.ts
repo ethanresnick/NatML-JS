@@ -5,6 +5,9 @@
 
 import { MLFeatureType } from "./MLFeatureType"
 
+/**
+ * ML model.
+ */
 export abstract class MLModel {
 
     //#region --Client API--
