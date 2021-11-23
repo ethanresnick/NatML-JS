@@ -23,7 +23,7 @@ class HubModelTest {
         expect(model).to.have.property("predict");
     }
 
-    @test
+    @test.skip
     async "Should predict with Hub model" () {
         const modelData = await MLModelData.fromHub("@natsuite/resnet18", process.env.HUB_ACCESS_KEY);
         const model = modelData.deserialize() as MLHubModel;

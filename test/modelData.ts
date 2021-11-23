@@ -4,11 +4,28 @@
 */
 
 import { suite, test } from "@testdeck/mocha"
-import { expect } from "chai"
+import { expect, should, use } from "chai"
 import { MLModelData } from "../src"
 
 @suite("Model Data Test")
 class ModelDataTest {
+
+    public static before () {
+        should();
+        use(require("chai-as-promised"));
+    }
+
+    @test
+    async "Should throw error on invalid access key" () {
+        const tag = "@natsuite/mobilenet-v2";
+        MLModelData.fromHub(tag, "").should.eventually.be.rejected;
+    }
+
+    @test
+    async "Should throw error on invalid predictor tag" () {
+        const tag = "@natsuite/invalid";
+        MLModelData.fromHub(tag).should.eventually.be.rejected;
+    }
 
     @test
     async "Should fetch MobileNet v2 model data" () {

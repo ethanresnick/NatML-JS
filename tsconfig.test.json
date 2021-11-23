@@ -16,6 +16,7 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "strictNullChecks": false,
     "declarationDir": "dist/types",
     "outDir": "dist/lib",
