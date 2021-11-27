@@ -40,17 +40,16 @@
     "typescript": "^4.4.4"
   },
   "keywords": [
-    "machine",
-    "learning",
+    "machine learning",
     "ml",
-    "deep",
-    "learning",
-    "computer",
+    "deep learning",
+    "computer vision",
     "vision",
-    "natural",
-    "language",
+    "natural language",
+    "nlp",
     "opencv",
     "tensorflow",
-    "pytorch"
+    "pytorch",
+    "onnx"
   ]
 }
