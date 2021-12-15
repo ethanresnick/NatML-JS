@@ -1,27 +1,25 @@
 /*
-*   NatML
-*   Copyright (c) 2021 Yusuf Olokoba.
-*/
+ *   NatML
+ *   Copyright (c) 2021 Yusuf Olokoba.
+ */
 
-import { MLFeatureType } from "./MLFeatureType"
+import { MLFeatureType } from "./MLFeatureType";
 
 /**
  * ML feature.
  */
 export abstract class MLFeature {
+  //#region --Client API--
+  /**
+   * Feature type.
+   */
+  public readonly type: MLFeatureType;
+  //#endregion
 
-    //#region --Client API--
-    /**
-     * Feature type.
-     */
-    public readonly type: MLFeatureType;
-    //#endregion
+  //#region --Operations--
 
-
-    //#region --Operations--
-
-    protected constructor (type: MLFeatureType) {
-        this.type = type;
-    }
-    //#endregion
+  protected constructor(type: MLFeatureType) {
+    this.type = type;
+  }
+  //#endregion
 }

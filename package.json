@@ -5,7 +5,8 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format": "prettier --write ./{src,test}/**/*.{ts,js}"
   },
   "repository": {
     "type": "git",
