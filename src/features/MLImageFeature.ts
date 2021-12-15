@@ -40,15 +40,15 @@ export class MLImageFeature extends MLFeature implements IMLHubFeature {
     input: Buffer | string | Uint8Array,
     attributes?: PixelBufferAttributes
   ) {
-    let type: MLImageType;
-    if (attributes)
-      type = new MLImageType(MLDataType.Byte, [
-        1,
-        attributes.height,
-        attributes.width,
-        attributes.channels,
-      ]);
-    else type = new MLImageType(MLDataType.Image, null as any);
+    const type = attributes
+      ? new MLImageType(MLDataType.Byte, [
+          1,
+          attributes.height,
+          attributes.width,
+          attributes.channels,
+        ])
+      : new MLImageType(MLDataType.Image);
+
     super(type);
     this.image = sharp(input, attributes ? { raw: attributes } : undefined);
   }

@@ -36,9 +36,9 @@ export class MLImageType extends MLArrayType {
    * @param type Image data type.
    * @param shape Image feature shape.
    */
-  public constructor(type: MLDataType, shape: number[]) {
+  public constructor(type: MLDataType, shape?: number[]) {
     super(type, shape);
-    this.interleaved = shape && shape[1] > shape[3];
+    this.interleaved = shape != null && shape[1] > shape[3];
   }
 
   private readonly interleaved: boolean;
