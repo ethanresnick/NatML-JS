@@ -10,12 +10,12 @@
     "type": "git",
     "url": "git+https://github.com/natsuite/NatML-JS.git"
   },
-  "author": "NatML <hi@natsuite.io> (https://natml.ai)",
+  "author": "NatML <hi@natml.ai> (https://natml.ai)",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/natsuite/NatML-JS/issues"
   },
-  "homepage": "https://github.com/natsuite/NatML-JS",
+  "homepage": "https://natml.ai",
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.js",
   "typings": "dist/types/index.d.ts",
