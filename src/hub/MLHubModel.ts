@@ -21,7 +21,7 @@ export class MLHubModel extends MLModel {
      * @param inputs Input features.
      * @returns Output features.
      */
-    public async predict (...features: MLHubFeature[]): Promise<MLFeature[]> {
+    public async predict (...features: MLHubFeature[]): Promise<MLHubFeature[]> { // INCOMPLETE // Download any remote URL's
         const prediction = await NatMLHub.requestPrediction({
             session: this.session,
             inputs: features,
@@ -29,8 +29,7 @@ export class MLHubModel extends MLModel {
         });
         if (prediction.error)
             throw new Error(prediction.error);
-        const results = prediction.results!.map(MLHubModel.deserialize);
-        return results;
+        return prediction.results!;
     }
     //#endregion
 
@@ -40,6 +39,8 @@ export class MLHubModel extends MLModel {
     constructor (session: string) {
         super(session);
     }
+
+    /*
 
     private static deserialize (input: MLHubFeature): MLFeature {
         switch (input.type) {
@@ -95,5 +96,6 @@ export class MLHubModel extends MLModel {
     private static deserializeText (input: MLHubFeature): MLTextFeature {
         return new MLTextFeature(input.data);
     }
+    */
     //#endregion
 }
