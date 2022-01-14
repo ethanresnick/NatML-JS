@@ -13,7 +13,7 @@ import {
   MLAudioFeature,
   MLImageFeature,
   MLTextFeature,
-  UnmanagedArray,
+  FeatureDataArray,
 } from "../features";
 
 /**
@@ -79,7 +79,7 @@ export class MLHubModel extends MLModel {
     }
   }
 
-  private static deserializeArray<T extends UnmanagedArray>(
+  private static deserializeArray<T extends FeatureDataArray>(
     input: MLHubFeature
   ): MLArrayFeature<T> {
     // This feels awfully sloppy

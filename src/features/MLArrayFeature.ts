@@ -4,12 +4,13 @@
  */
 
 import { MLFeature } from "../MLFeature";
-import { MLFeatureType } from "../MLFeatureType";
 import { MLDataType } from "../MLTypes";
 import { IMLHubFeature, MLHubFeature } from "../hub";
 import { MLArrayType } from "../types";
+import { match } from "../utils/fpHelpers";
+import { encode } from "uint8-to-b64";
 
-export type UnmanagedArray =
+export type FeatureDataArray =
   | Float32Array
   | Float64Array
   | Int8Array
@@ -24,11 +25,12 @@ export type UnmanagedArray =
 /**
  * ML array feature.
  */
-export class MLArrayFeature<T extends UnmanagedArray>
+export class MLArrayFeature<T extends FeatureDataArray>
   extends MLFeature
   implements IMLHubFeature
 {
-  //#region --Client API--
+  public readonly type: MLArrayType;
+
   /**
    * Feature data.
    */
@@ -38,14 +40,14 @@ export class MLArrayFeature<T extends UnmanagedArray>
    * Feature shape.
    */
   public get shape() {
-    return (this.type as MLArrayType).shape;
+    return this.type.shape;
   }
 
   /**
    * Feature element count.
    */
   public get elementCount() {
-    return (this.type as MLArrayType).elementCount;
+    return this.type.elementCount;
   }
 
   /**
@@ -60,54 +62,16 @@ export class MLArrayFeature<T extends UnmanagedArray>
    * @param data Feature data.
    * @param type Feature type.
    */
-  public constructor(data: T, type: MLFeatureType);
-  //#endregion
+  public constructor(data: T, type: MLArrayType);
 
-  //#region --Operations--
-
-  public constructor(
-    data: T,
-    typeOrShape: number[] | MLFeatureType | undefined
-  ) {
-    let dtype = MLDataType.Float;
-    let shape = typeOrShape instanceof Array ? typeOrShape : undefined;
-    switch (data.constructor) {
-      case Float32Array:
-        dtype = MLDataType.Float;
-        break;
-      case Float64Array:
-        dtype = MLDataType.Double;
-        break;
-      case Int8Array:
-        dtype = MLDataType.SByte;
-        break;
-      case Int16Array:
-        dtype = MLDataType.Short;
-        break;
-      case Int32Array:
-        dtype = MLDataType.Int;
-        break;
-      case BigInt64Array:
-        dtype = MLDataType.Long;
-        break;
-      case Uint8Array:
-        dtype = MLDataType.Byte;
-        break;
-      case Uint16Array:
-        dtype = MLDataType.UShort;
-        break;
-      case Uint32Array:
-        dtype = MLDataType.UInt;
-        break;
-      case BigUint64Array:
-        dtype = MLDataType.ULong;
-        break;
-    }
+  public constructor(data: T, typeOrShape?: number[] | MLArrayType) {
     const type =
-      typeOrShape instanceof MLFeatureType
+      typeOrShape instanceof MLArrayType
         ? typeOrShape
-        : new MLArrayType(dtype, shape);
+        : new MLArrayType(getMlDataType(data), typeOrShape);
+
     super(type);
+    this.type = type;
     this.data = data;
   }
 
@@ -119,10 +83,31 @@ export class MLArrayFeature<T extends UnmanagedArray>
       throw new Error(
         `Array feature cannot be used for Hub prediction because it has no shape`
       );
-    // Create
-    const data = Buffer.from(this.data.buffer).toString("base64");
-    const type = this.type.type;
-    return { data, type, shape };
+
+    const b64Data = encode(new Uint8Array(this.data.buffer));
+
+    return {
+      data: `data:application/octet-stream;base64,${b64Data}`,
+      type: this.type.type,
+      shape,
+    };
   }
-  //#endregion
 }
+
+/**
+ * Takes a FeatureDataArray and returns a corresponding MLDataType.
+ * Falls back to assuming the MLDataType is a float.
+ */
+const getMlDataType = match<FeatureDataArray, MLDataType, true>(
+  [Float32Array, () => MLDataType.Float],
+  [Float64Array, () => MLDataType.Double],
+  [Int8Array, () => MLDataType.SByte],
+  [Int16Array, () => MLDataType.Short],
+  [Int32Array, () => MLDataType.Int],
+  [BigInt64Array, () => MLDataType.Long],
+  [Uint8Array, () => MLDataType.Byte],
+  [Uint16Array, () => MLDataType.UShort],
+  [Uint32Array, () => MLDataType.UInt],
+  [BigUint64Array, () => MLDataType.ULong],
+  [match.any, () => MLDataType.Float]
+);
