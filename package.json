@@ -19,15 +19,16 @@
   },
   "homepage": "https://github.com/natsuite/NatML-JS",
   "type": "module",
-  "main": "dist/lib/index.js",
-  "typings": "dist/types/index.d.ts",
+  "main": "dist/lib/index.node.js",
+  "typings": "dist/types/index.node.d.ts",
   "files": [
     "dist"
   ],
   "dependencies": {
     "axios": "^0.24.0",
     "nanoid": "^3.1.25",
-    "sharp": "^0.29.3"
+    "sharp": "^0.29.3",
+    "uint8-to-b64": "^1.0.2"
   },
   "devDependencies": {
     "@testdeck/mocha": "^0.1.2",
