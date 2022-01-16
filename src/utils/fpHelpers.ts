@@ -7,7 +7,7 @@ export function anyPass<T extends any[]>(...fs: ((...args: T) => boolean)[]) {
 }
 
 export function allPass<T extends any[]>(...fs: ((...args: T) => boolean)[]) {
-  return (...args: T) => fs.some((f) => f(...args));
+  return (...args: T) => fs.every((f) => f(...args));
 }
 
 /**
