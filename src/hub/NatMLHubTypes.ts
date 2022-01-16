@@ -94,6 +94,8 @@ export interface Predictor {
 export interface Prediction {
   id: string;
   status: PredictionStatus;
-  results?: MLHubFeature[];
+  // results is an array of MLHubFeatures, except the data is a
+  // URL string to remote data or base64-encoded data in a data url.
+  results?: (Omit<MLHubFeature, "data"> & { data: string })[];
   error?: string;
 }

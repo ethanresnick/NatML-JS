@@ -9,19 +9,20 @@ import { MLDataType } from "../MLTypes";
  *
  */
 export interface MLHubFeature {
-  // DOC
   /**
    * Feature type.
    */
   type: MLDataType;
   /**
-   * Feature data.
-   * This is either base64-encoded feature data or a URL to such data.
+   * The feature's data.
    */
-  data: string;
+  data: Blob | ReadableStream;
   /**
    * Feature shape.
-   * This should only be populated for array features.
    */
   shape?: number[];
+}
+
+export function isHubFeature(it: unknown): it is MLHubFeature {
+  return typeof it === "object" && it !== null && "type" in it && "data" in it;
 }

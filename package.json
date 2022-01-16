@@ -25,7 +25,9 @@
     "dist"
   ],
   "dependencies": {
+    "@types/data-urls": "^2.0.1",
     "axios": "^0.24.0",
+    "data-urls": "^3.0.1",
     "nanoid": "^3.1.25",
     "sharp": "^0.29.3",
     "uint8-to-b64": "^1.0.2"
