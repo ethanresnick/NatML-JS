@@ -12,12 +12,12 @@
     "type": "git",
     "url": "git+https://github.com/natsuite/NatML-JS.git"
   },
-  "author": "NatML <hi@natsuite.io> (https://natml.ai)",
+  "author": "NatML <hi@natml.ai> (https://natml.ai)",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/natsuite/NatML-JS/issues"
   },
-  "homepage": "https://github.com/natsuite/NatML-JS",
+  "homepage": "https://natml.ai",
   "type": "module",
   "main": "dist/lib/index.node.js",
   "typings": "dist/types/index.node.d.ts",
@@ -49,18 +49,17 @@
     "webpack": "^5.65.0"
   },
   "keywords": [
-    "machine",
-    "learning",
+    "machine learning",
     "ml",
-    "deep",
-    "learning",
-    "computer",
+    "deep learning",
+    "computer vision",
     "vision",
-    "natural",
-    "language",
+    "natural language",
+    "nlp",
     "opencv",
     "tensorflow",
-    "pytorch"
+    "pytorch",
+    "onnx"
   ],
   "lint-staged": {
     "*.{js,ts,css,md}": "prettier --write"
