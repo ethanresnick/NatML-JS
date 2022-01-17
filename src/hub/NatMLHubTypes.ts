@@ -91,11 +91,25 @@ export interface Predictor {
   audioFormat?: AudioFormat;
 }
 
-export interface Prediction {
+export type IncompletePrediction = {
   id: string;
-  status: PredictionStatus;
-  // results is an array of MLHubFeatures, except the data is a
-  // URL string to remote data or base64-encoded data in a data url.
-  results?: (Omit<MLHubFeature, "data"> & { data: string })[];
-  error?: string;
-}
+  status: Exclude<PredictionStatus, PredictionStatus.Completed>;
+  results: null;
+  error: null;
+};
+
+// If prediction is completed, it must have an error or results, and not both.
+export type CompletedPrediction = {
+  id: string;
+  status: PredictionStatus.Completed;
+} & (
+  | { results: null; error: string }
+  | {
+      // results is an array of MLHubFeatures, except the data is a
+      // URL string to remote data or base64-encoded data in a data url.
+      results: (Omit<MLHubFeature, "data"> & { data: string })[];
+      error: null;
+    }
+);
+
+export type Prediction = IncompletePrediction | CompletedPrediction;

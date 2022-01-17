@@ -27,8 +27,9 @@ export class MLHubModel extends MLModel {
       inputs: features,
       waitUntilCompleted: true,
     });
-    if (prediction.error) throw new Error(prediction.error);
-    const results = prediction.results!; // TODO: non-null assertion safe?
+
+    if (prediction.error != null) throw new Error(prediction.error);
+    const results = prediction.results;
 
     // await the start of all downloads, and reject if any fail.
     const downloadedData = await Promise.all(

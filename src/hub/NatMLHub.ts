@@ -6,17 +6,25 @@
 import axios from "axios";
 import { nanoid } from "nanoid";
 import { MLHubFeature } from "./MLHubFeature";
-import { Session, Prediction, Device, UploadType } from "./NatMLHubTypes";
+import {
+  Session,
+  Prediction,
+  Device,
+  UploadType,
+  CompletedPrediction,
+} from "./NatMLHubTypes";
 
 export interface CreateSessionInput {
   tag: string;
   device: Device;
 }
 
-export interface RequestPredictionInput {
+export interface RequestPredictionInput<
+  WaitUntilComplete extends boolean = boolean
+> {
   session: string;
   inputs: MLHubFeature[];
-  waitUntilCompleted?: boolean;
+  waitUntilCompleted?: WaitUntilComplete;
 }
 
 export interface ReportPredictionInput {
@@ -87,9 +95,9 @@ export abstract class NatMLHub {
    * @param input Prediction request.
    * @returns Hub prediction.
    */
-  public static async requestPrediction(
-    input: RequestPredictionInput
-  ): Promise<Prediction> {
+  public static async requestPrediction<T extends boolean>(
+    input: RequestPredictionInput<T>
+  ): Promise<T extends true ? CompletedPrediction : Prediction> {
     const query = `
         mutation ($input: RequestPredictionInput!) {
             requestPrediction (input: $input) {
