@@ -41,5 +41,5 @@ export class MLImageType extends MLArrayType {
     this.interleaved = shape != null && shape[1] > shape[3];
   }
 
-  public readonly interleaved: boolean;
+  private readonly interleaved: boolean;
 }

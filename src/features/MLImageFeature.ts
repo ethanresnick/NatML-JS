@@ -60,7 +60,7 @@ export class MLImageFeature extends MLFeature implements IMLHubFeature {
    * in declaration export files, but should be treated as private.
    * @private
    */
-  public readonly _image: Promise<Uint8Array>;
+  private readonly image: Promise<Uint8Array>;
 
   /**
    * Metadata about the image's size, to interpet the image buffer,
@@ -70,7 +70,7 @@ export class MLImageFeature extends MLFeature implements IMLHubFeature {
    * in declaration export files, but should be treated as private.
    * @private
    */
-  public readonly _attributes?: PixelBufferAttributes;
+  private readonly attributes?: PixelBufferAttributes;
 
   /**
    * @param input An encoded image buffer.
@@ -129,29 +129,23 @@ export class MLImageFeature extends MLFeature implements IMLHubFeature {
 
     super(type);
     this.type = type;
-    this._attributes = computedAttributes;
-    this._image = image;
+    this.attributes = computedAttributes;
+    this.image = image;
   }
 
   public async serialize(): Promise<MLHubFeature> {
     // enocde the image data to a compressed format if we have a raw buffer.
     // if we were already given an encoded image, we don't know its media type,
     // so we just pass `application/octet-stream` to Hub; it'll figure it out.
-    const { data, type } = await this._image.then((data) =>
-      this._attributes
-        ? deps.encodeRawImage(this._attributes, data)
+    const { data, type } = await this.image.then((data) =>
+      this.attributes
+        ? deps.encodeRawImage(this.attributes, data)
         : { data, type: "application/octet-stream" }
     );
 
     return {
       data: new Blob([data], { type }),
       type: MLDataType.Image,
-      shape:
-        this.type.type === MLDataType.Byte
-          ? this.type.interleaved
-            ? [1, this.type.height!, this.type.width!, this.type.channels!]
-            : [1, this.type.channels!, this.type.height!, this.type.width!]
-          : undefined,
     };
   }
 
